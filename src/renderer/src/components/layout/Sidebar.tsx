@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { type Page, useStore } from '../../store/useStore'
 
 interface NavItem {
@@ -8,11 +8,10 @@ interface NavItem {
   disabled?: boolean
 }
 
-function SettingsIcon() {
+function PromptIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-      <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-      <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+      <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
     </svg>
   )
 }
@@ -21,14 +20,6 @@ function SkillsIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
       <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-    </svg>
-  )
-}
-
-function PromptIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-      <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
     </svg>
   )
 }
@@ -50,16 +41,63 @@ function ResultsIcon() {
   )
 }
 
+function SettingsIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+      <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+    </svg>
+  )
+}
+
+function PersonIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.029 10 8 10c-2.029 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+    </svg>
+  )
+}
+
 const NAV_ITEMS: NavItem[] = [
-  { id: 'settings', label: 'Settings', icon: <SettingsIcon /> },
-  { id: 'skills', label: 'Skills', icon: <SkillsIcon /> },
-  { id: 'prompt', label: 'Prompt', icon: <PromptIcon /> },
-  { id: 'debate', label: 'Debate', icon: <DebateIcon /> },
-  { id: 'results', label: 'Results', icon: <ResultsIcon /> }
+  { id: 'prompt',   label: 'Prompt',   icon: <PromptIcon />  },
+  { id: 'skills',   label: 'Skills',   icon: <SkillsIcon />  },
+  { id: 'debate',   label: 'Debate',   icon: <DebateIcon />  },
+  { id: 'results',  label: 'Results',  icon: <ResultsIcon /> },
+  { id: 'settings', label: 'Settings', icon: <SettingsIcon />}
 ]
 
 export function Sidebar() {
-  const { currentPage, setCurrentPage } = useStore()
+  const { currentPage, setCurrentPage, settings, setUserProfile } = useStore()
+  const profile = settings.userProfile ?? null
+
+  const [expanded, setExpanded] = useState(false)
+  const [name, setName]   = useState(profile?.name  ?? '')
+  const [email, setEmail] = useState(profile?.email ?? '')
+
+  function handleOpen() {
+    setName(profile?.name ?? '')
+    setEmail(profile?.email ?? '')
+    setExpanded(true)
+  }
+
+  async function handleSave() {
+    const trimName  = name.trim()
+    const trimEmail = email.trim()
+    if (!trimName) return
+    await setUserProfile({ name: trimName, email: trimEmail })
+    setExpanded(false)
+  }
+
+  function handleSignOut() {
+    setUserProfile(null)
+    setName('')
+    setEmail('')
+    setExpanded(false)
+  }
+
+  const initials = profile
+    ? profile.name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
+    : null
 
   return (
     <aside className="w-[220px] min-h-screen bg-[#010409] border-r border-[#21262D] flex flex-col shrink-0">
@@ -111,9 +149,83 @@ export function Sidebar() {
         })}
       </nav>
 
+      {/* User / Login */}
+      <div className="px-3 pb-3 border-t border-[#21262D] pt-3">
+        {!expanded ? (
+          <button
+            onClick={handleOpen}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-left text-[#8B949E] hover:bg-[#161B22] hover:text-[#C9D1D9] transition-colors duration-150"
+          >
+            {initials ? (
+              <span className="w-6 h-6 rounded-full bg-[#8B5CF6]/30 text-[#8B5CF6] text-[10px] font-bold flex items-center justify-center shrink-0">
+                {initials}
+              </span>
+            ) : (
+              <span className="text-[#6E7681]"><PersonIcon /></span>
+            )}
+            <div className="flex-1 min-w-0">
+              {profile ? (
+                <>
+                  <div className="text-[#C9D1D9] text-xs font-medium truncate">{profile.name}</div>
+                  {profile.email && <div className="text-[10px] text-[#6E7681] truncate">{profile.email}</div>}
+                </>
+              ) : (
+                <span className="text-xs text-[#8B949E]">Add your profile</span>
+              )}
+            </div>
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor" className="text-[#484F58] shrink-0">
+              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+            </svg>
+          </button>
+        ) : (
+          <div className="px-1 py-1 space-y-2">
+            <div className="text-[11px] font-medium text-[#8B949E] px-1 mb-1">
+              {profile ? 'Edit profile' : 'Sign in'}
+            </div>
+            <input
+              type="text"
+              placeholder="Your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-[#0D1117] border border-[#30363D] rounded-md px-2.5 py-1.5 text-xs text-[#E6EDF3] placeholder-[#484F58] focus:outline-none focus:border-[#8B5CF6]"
+            />
+            <input
+              type="email"
+              placeholder="Email (optional)"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-[#0D1117] border border-[#30363D] rounded-md px-2.5 py-1.5 text-xs text-[#E6EDF3] placeholder-[#484F58] focus:outline-none focus:border-[#8B5CF6]"
+            />
+            <div className="flex gap-2 pt-0.5">
+              <button
+                onClick={handleSave}
+                disabled={!name.trim()}
+                className="flex-1 py-1.5 rounded-md text-[11px] font-medium bg-[#8B5CF6] text-white hover:bg-[#7C3AED] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+              >
+                Save
+              </button>
+              <button
+                onClick={() => setExpanded(false)}
+                className="flex-1 py-1.5 rounded-md text-[11px] font-medium bg-[#161B22] text-[#8B949E] hover:text-[#C9D1D9] transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+            {profile && (
+              <button
+                onClick={handleSignOut}
+                className="w-full py-1.5 rounded-md text-[11px] text-[#F85149] hover:bg-[#F85149]/10 transition-colors"
+              >
+                Remove profile
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Footer */}
-      <div className="px-5 py-4 border-t border-[#21262D]">
-        <div className="text-[10px] text-[#484F58]">v1.0.0</div>
+      <div className="px-5 py-3 border-t border-[#21262D]">
+        <div className="text-[10px] text-[#484F58]">v1.0.1</div>
       </div>
     </aside>
   )

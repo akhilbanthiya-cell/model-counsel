@@ -9,9 +9,15 @@ export interface ProviderSettings {
   enabledModels: string[]
 }
 
+export interface UserProfile {
+  name: string
+  email: string
+}
+
 export interface AppSettings {
   providers: Record<string, ProviderSettings>
   debateRounds: number
+  userProfile?: UserProfile
 }
 
 export interface DebateSetup {
@@ -57,6 +63,7 @@ interface AppStore {
   toggleModel: (providerId: string, modelId: string) => void
   saveSettings: () => Promise<ApiResult>
   loadSettings: () => Promise<void>
+  setUserProfile: (profile: UserProfile | null) => Promise<void>
   setDebateSetup: (setup: DebateSetup) => void
   clearDebateSetup: () => void
   saveResult: (result: DebateResult) => Promise<void>
@@ -66,7 +73,7 @@ interface AppStore {
 }
 
 export const useStore = create<AppStore>((set, get) => ({
-  currentPage: 'settings',
+  currentPage: 'prompt',
   settings: defaultSettings(),
   isDirty: false,
   debateSetup: null,
@@ -116,6 +123,15 @@ export const useStore = create<AppStore>((set, get) => ({
     if (saved && Object.keys(saved).length > 0) {
       set({ settings: { ...defaultSettings(), ...(saved as Partial<AppSettings>) } })
     }
+  },
+
+  setUserProfile: async (profile) => {
+    set((state) => ({
+      isDirty: false,
+      settings: { ...state.settings, userProfile: profile ?? undefined }
+    }))
+    const s = get().settings
+    await window.api.settings.save({ ...s, userProfile: profile ?? undefined })
   },
 
   setDebateSetup: (setup) => set({ debateSetup: setup }),
