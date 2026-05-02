@@ -66,7 +66,8 @@ export function Sidebar() {
       {/* Logo */}
       <div className="px-5 py-5 border-b border-[#21262D]">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-[#8B5CF6] rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-[#8B5CF6]/20">
+          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center font-bold text-sm shadow-lg shadow-orange-500/30 border border-orange-100"
+               style={{ color: '#EA580C', fontFamily: '"Segoe UI", system-ui, sans-serif', letterSpacing: '-0.5px' }}>
             MC
           </div>
           <div>
