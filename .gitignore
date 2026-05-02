@@ -1,0 +1,9 @@
+node_modules/
+out/
+release/
+dist/
+*.local
+.env
+.DS_Store
+Thumbs.db
+.claude/
